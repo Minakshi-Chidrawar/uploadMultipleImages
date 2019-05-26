@@ -34,9 +34,21 @@ class PhotoController extends Controller
     public function uploadImage(Request $request)
     {
         $request->validate([
+            'folderName' => 'required',
             'filename' => 'required',
             'filename.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+
+        $folder = $request->folderName;
+        // create new directory for uploading image if doesn't exist
+        if( ! File::exists('images/' . $folder . '/'))
+        {
+            $org_img = File::makeDirectory('images/' . $folder . '/', 0777, true);
+        }
+        if ( ! File::exists('images/thumbnails/'))
+        {
+            $thm_img = File::makeDirectory('images/thumbnails', 0777, true);
+        }
  
         //check if image exist
         if ($request->hasFile('filename'))
@@ -45,16 +57,6 @@ class PhotoController extends Controller
  
             //setting flag for condition
             $org_img = $thm_img = true;
- 
-            // create new directory for uploading image if doesn't exist
-            if( ! File::exists('images/originals/'))
-            {
-                $org_img = File::makeDirectory('images/originals/', 0777, true);
-            }
-            if ( ! File::exists('images/thumbnails/'))
-            {
-                $thm_img = File::makeDirectory('images/thumbnails', 0777, true);
-            }
  
             // loop through each image to save and upload
             foreach($images as $key => $image)
@@ -66,11 +68,12 @@ class PhotoController extends Controller
                 $filename = rand(1111,9999).time().'.'.$image->getClientOriginalExtension();
 
                 //path of image for upload
-                $org_path = 'images/originals/' . $filename;
+                $org_path = 'images/' . $folder . '/' . $filename;
                 $thm_path = 'images/thumbnails/' . $filename;
  
-                $newPhoto->image     = 'images/originals/'.$filename;
+                $newPhoto->image     = 'images/' . $folder . '/' . $filename;
                 $newPhoto->thumbnail = 'images/thumbnails/'.$filename;
+                $newPhoto->imageDir  = 'images/' . $folder . '/';
  
                 //don't upload file when unable to save name to database
                 if ( ! $newPhoto->save()) {
@@ -83,14 +86,13 @@ class PhotoController extends Controller
                    Image::make($image)->resize(500, 500, function ($constraint) {
                            $constraint->upsize();
                        })->save($org_path);
-                   Image::make($image)->fit(270, 160, function ($constraint) {
+                   Image::make($image)->resize(270, 160, function ($constraint) {
                        $constraint->upsize();
                    })->save($thm_path);
                 }
             }
         }
  
-    return redirect()->action('PhotoController@index');
- 
+        return redirect()->action('PhotoController@index'); 
     }
 }
