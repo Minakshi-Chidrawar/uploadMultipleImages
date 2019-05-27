@@ -73,7 +73,7 @@ class PhotoController extends Controller
  
                 $newPhoto->image     = 'images/' . $folder . '/' . $filename;
                 $newPhoto->thumbnail = 'images/thumbnails/'.$filename;
-                $newPhoto->imageDir  = 'images/' . $folder . '/';
+                $newPhoto->imageDir  = $folder;
  
                 //don't upload file when unable to save name to database
                 if ( ! $newPhoto->save()) {
@@ -94,5 +94,13 @@ class PhotoController extends Controller
         }
  
         return redirect()->action('PhotoController@index'); 
+    }
+
+    public function displayImage()
+    {
+        $folders = Photo::groupBy('imageDir')->orderBy('imageDir')->get();
+        //dd($folders[0]->imageDir);
+
+        return view('display', compact('folders'));
     }
 }
