@@ -18,4 +18,5 @@ Route::get('/', function () {
 Route::get('photo', 'PhotoController@index')->name('photo');
 Route::post('photo', 'PhotoController@uploadImage');
 
-Route::get('display', 'PhotoController@displayImage');
+Route::get('gallery', 'PhotoController@fetchFolder');
+Route::get('display/{folder}', 'PhotoController@displayImage');
