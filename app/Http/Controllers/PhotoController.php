@@ -96,11 +96,19 @@ class PhotoController extends Controller
         return redirect()->action('PhotoController@index'); 
     }
 
-    public function displayImage()
+    public function fetchFolder()
     {
         $folders = Photo::groupBy('imageDir')->orderBy('imageDir')->get();
         //dd($folders[0]->imageDir);
 
-        return view('display', compact('folders'));
+        return view('gallery', compact('folders'));
+    }
+
+    public function displayImage($folder)
+    {
+        $images = Photo::where('imageDir', '=', $folder)->get(['image', 'thumbnail']);
+        //dd($images);
+
+        return view('display', compact('images'));
     }
 }
