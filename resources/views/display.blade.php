@@ -13,15 +13,19 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4>Gallery</h4>
+                    <h4>Upload Multiple Images</h4>
                 </div>
  
                 <div class="panel-body">
-                    <ul>
-                        @foreach($folders as $folder)
-                            <li>{{ $folder->imageDir }}</li>
-                        @endforeach
-                    </ul>
+                    <h3>Listing Images</h3>
+ 
+                    @forelse($images as $image)
+                        <div class="col-md-4">
+                            <img src="{{url($image->image)}}" width="300" height="200" class="img-responsive">
+                        </div>
+                    @empty
+                        No image found
+                    @endforelse
                 </div>
             </div>
         </div>
