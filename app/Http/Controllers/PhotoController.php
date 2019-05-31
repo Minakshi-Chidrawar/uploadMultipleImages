@@ -71,8 +71,8 @@ class PhotoController extends Controller
                 $org_path = 'images/' . $folder . '/' . $filename;
                 $thm_path = 'images/thumbnails/' . $filename;
  
-                $newPhoto->image     = 'images/' . $folder . '/' . $filename;
-                $newPhoto->thumbnail = 'images/thumbnails/'.$filename;
+                $newPhoto->image     = '/images/' . $folder . '/' . $filename;
+                $newPhoto->thumbnail = '/images/thumbnails/'.$filename;
                 $newPhoto->imageDir  = $folder;
  
                 //don't upload file when unable to save name to database
@@ -83,7 +83,7 @@ class PhotoController extends Controller
                 // upload image to server
                 if (($org_img && $thm_img) == true)
                 {
-                   Image::make($image)->resize(500, 500, function ($constraint) {
+                   Image::make($image)->resize(400, 400, function ($constraint) {
                            $constraint->upsize();
                        })->save($org_path);
                    Image::make($image)->resize(270, 160, function ($constraint) {
