@@ -98,7 +98,7 @@ class PhotoController extends Controller
 
     public function fetchFolder()
     {
-        $folders = Photo::groupBy('imageDir')->orderBy('imageDir')->get();
+        $folders = Photo::groupBy('imageDir')->orderBy('created_at')->get();
         //dd($folders[0]->imageDir);
 
         return view('gallery', compact('folders'));
@@ -106,7 +106,7 @@ class PhotoController extends Controller
 
     public function displayImage($folder)
     {
-        $images = Photo::where('imageDir', '=', $folder)->get(['image', 'thumbnail']);
+        $images = Photo::where('imageDir', '=', $folder)->orderBy(created_at)->get(['image', 'thumbnail']);
         //dd($images);
 
         return view('display', compact('images'));
