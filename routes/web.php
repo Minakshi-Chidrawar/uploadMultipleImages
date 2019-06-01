@@ -20,3 +20,6 @@ Route::post('photo', 'PhotoController@uploadImage');
 
 Route::get('gallery', 'PhotoController@fetchFolder');
 Route::get('display/{folder}', 'PhotoController@displayImage');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
