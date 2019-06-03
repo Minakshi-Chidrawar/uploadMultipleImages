@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
   <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -22,10 +24,13 @@
                             <li> <a href="{{ URL::to('/display/Test28052019') }}">{{ $folder->imageDir }}</a></li>
                         @endforeach
                     </ul>
+
+                    {{ $folders->links() }}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>
