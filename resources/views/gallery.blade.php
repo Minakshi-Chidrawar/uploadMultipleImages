@@ -21,7 +21,7 @@
                 <div class="panel-body">
                     <ul>
                         @foreach($folders as $folder)
-                            <li> <a href="{{ URL::to('/display/Test28052019') }}">{{ $folder->imageDir }}</a></li>
+                            <li> <a href="{{ URL::to('/display/' . $folder->imageDir ) }}">{{ $folder->imageDir }}</a></li>
                         @endforeach
                     </ul>
 
