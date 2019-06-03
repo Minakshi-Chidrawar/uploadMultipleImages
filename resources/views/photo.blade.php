@@ -42,9 +42,6 @@
                             </label>
                             <input type="file" name="filename[]" id="file-upload" multiple>
                         </div>
-                        <!-- <div class="form-group">
-                            <input type="file" name="image[]" class="form-control-file" multiple="true">
-                        </div> -->
  
                         {{ csrf_field() }}
                         <button type="submit" class="btn btn-primary">Submit</button>
