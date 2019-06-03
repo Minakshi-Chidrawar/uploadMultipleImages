@@ -6,6 +6,7 @@ use File;
 use App\Photo;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
  
 class PhotoController extends Controller
 {
@@ -83,9 +84,7 @@ class PhotoController extends Controller
                 // upload image to server
                 if (($org_img && $thm_img) == true)
                 {
-                   Image::make($image)->resize(400, 400, function ($constraint) {
-                           $constraint->upsize();
-                       })->save($org_path);
+                   Image::make($image)->resize(400, 400)->save($org_path);
                    Image::make($image)->resize(270, 160, function ($constraint) {
                        $constraint->upsize();
                    })->save($thm_path);
@@ -93,22 +92,20 @@ class PhotoController extends Controller
             }
         }
  
-        return redirect()->action('PhotoController@index'); 
+        return redirect()->action('PhotoController@fetchFolder'); 
     }
 
     public function fetchFolder()
     {
-        $folders = Photo::groupBy('imageDir')->orderBy('created_at')->get();
-        //dd($folders[0]->imageDir);
+        $folders = Photo::groupBy('imageDir')->orderBy('created_at', 'DESC')->paginate(5);
 
         return view('gallery', compact('folders'));
     }
 
     public function displayImage($folder)
     {
-        $images = Photo::where('imageDir', '=', $folder)->orderBy(created_at)->get(['image', 'thumbnail']);
+        $images = Photo::where('imageDir', '=', $folder)->orderBy('created_at', 'DESC')->get(['image', 'thumbnail']);
         //dd($images);
-
         return view('display', compact('images'));
     }
 }
