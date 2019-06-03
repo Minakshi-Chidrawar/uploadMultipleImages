@@ -16,21 +16,24 @@
             }
         </style>
     </head>
-    <body>
+    <body> 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">        
                     <ol class="carousel-indicators">
-                    @foreach( $images as $image )
-                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop->index }}" class="{{ $loop->first ? 'active' : '' }}"></li>
-                    @endforeach
+                        @foreach( $images as $image )
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop->index }}" 
+                            class="{{ $loop->first ? 'active' : '' }}">
+                                <img src="{{ $image->thumbnail }}" alt="Images">
+                            </li>
+                        @endforeach
                     </ol>
                     
                     <div class="carousel-inner" role="listbox">
                         @foreach( $images as $image )
-                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                            <img class="img-responsive w-100" src="{{ $image->image }}" height="300" alt="Test">
-                        </div>
+                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                <img class="img-responsive w-100" src="{{ $image->image }}" height="300" alt="Test">
+                            </div>
                         @endforeach
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
